@@ -14,7 +14,7 @@ $(document).on("click", "#btnSave", function(event)
  	$("#alertError").hide(); 
  	
 	// Form validation----------------
-	var status = validateItemForm(); 
+	var status = validatePaymentForm(); 
 	
 	// If not valid-------------------
 	if (status != true) 
@@ -25,22 +25,23 @@ $(document).on("click", "#btnSave", function(event)
  	} 
  	
 	// If valid----------------------
-	var student = getStudentCard($("#txtName").val().trim(), 
- 	$('input[name="rdoGender"]:checked').val(), 
- 	$("#ddlYear").val()); 
+	var payment = getPayment($("#txtAccNumber").val().trim(), 
+ 	$("#DateOfPayment").val());
+ 	$("#Amount").val());
+ 	$("#TypeOfPayment").val());
 
- 	$("#colStudents").append(student); 
+ 	$("#colPayments").append(payment); 
  
  	$("#alertSuccess").text("Saved successfully."); 
  	$("#alertSuccess").show(); 
  
- 	$("#formStudent")[0].reset(); 
+ 	$("#formPayment")[0].reset(); 
 }); 
 
 // REMOVE==========================================
 $(document).on("click", ".remove", function(event) 
 { 
- 	$(this).closest(".student").remove(); 
+ 	$(this).closest(".payment").remove(); 
  
  	$("#alertSuccess").text("Removed successfully."); 
  	$("#alertSuccess").show(); 
@@ -49,58 +50,47 @@ $(document).on("click", ".remove", function(event)
 // CLIENT-MODEL=================================================================
 function validateItemForm() 
 { 
-	// NAME
-	if ($("#txtName").val().trim() == "") 
+	// ACCOUNT NO
+	if ($("#txtAccNumber").val().trim() == "") 
  	{ 
- 		return "Insert student name."; 
+ 		return "Insert Account No."; 
  	} 
  	
-	// GENDER
-	if ($('input[name="rdoGender"]:checked').length === 0) 
+	// DATE OF PAYMENT
+	if ($("#DateOfPayment").val() == "0") 
  	{ 
- 		return "Select gender."; 
+ 		return "Select Date Of Payment."; 
  	} 
  	
-	// YEAR
-	if ($("#ddlYear").val() == "0") 
+	// AMOUNT
+	if ($("#Amount").val() == "0") 
  	{ 
- 		return "Select year."; 
+ 		return "Select Amount."; 
+ 	} 
+ 	
+ 	// TYPE OF PAYMENT
+	if ($("#TypeOfPayment").val() == "0") 
+ 	{ 
+ 		return "Select Type Of Payment."; 
  	} 
  	
 	return true; 
 } 
 
-function getStudentCard(name, gender, year) 
-{ 
-	var title = (gender == "Male") ? "Mr." : "Ms."; 
-	var yearNumber = "";
-	 
-	switch (year) { 
-	case "1": 
- 		yearNumber = "1st"; 
- 		break; 
-	case "2": 
- 		yearNumber = "2nd"; 
- 		break; 
-	case "3": 
- 		yearNumber = "3rd"; 
- 		break; 
-	case "4": 
- 		yearNumber = "4th"; 
- 		break; 
- 	} 
  
- 	var student = ""; 
- 	student += "<div class=\"student card bg-light m-2\" 
+ 	var payment = ""; 
+ 	payment += "<div class=\"payment card bg-light m-2\" 
  				style=\"max-width: 10rem; float: left;\">"; 
- 	student += "<div class=\"card-body\">"; 
- 	student += title + " " + name + ","; 
- 	student += "<br>"; 
- 	student += yearNumber + " year"; 
- 	student += "</div>"; 
- 	student += "<input type=\"button\" value=\"Remove\" 
+ 	payment += "<div class=\"card-body\">"; 
+ 	payment += title + " " + DateOfPayment + ","; 
+ 	payment += "<br>"; 
+ 	payment += Amount + " Amount"; 
+ 	payment += "<br>";
+ 	payment += TypeOfPayment + " TypeOfPayment";
+ 	payment += "</div>"; 
+ 	payment += "<input type=\"button\" value=\"Remove\" 
  			class=\"btn btn-danger remove\">"; 
- 	student += "</div>"; 
+ 	payment += "</div>"; 
  	
-	return student; 
+	return payment; 
 }
